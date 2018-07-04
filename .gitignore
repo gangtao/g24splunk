@@ -1,0 +1,4 @@
+.DS_*
+app/appserver/static/visualizations/g2/node_modules
+app/appserver/static/visualizations/g2/package-lock.json
+

@@ -9,8 +9,7 @@ define([
         // Add required assets to this list
         '@antv/g2',
         'd3',
-        'Select2',
-        '@splunk/react-ui/Select'
+        'Select2'
     ],
     function(
         $,
@@ -19,8 +18,7 @@ define([
         vizUtils,
         G2,
         d3,
-        select2,
-        Select
+        select2
     ) {
 
         // Extend from SplunkVisualizationBase

@@ -99,6 +99,10 @@ define([
                 for (let p in data[0]) {
                     let field = {};
                     field.name = p;
+                    if (data[0][p] == null) {
+                        continue;
+                    }
+
                     if (isString(data[0][p])) {
                         field.type = "string";
                     } else {

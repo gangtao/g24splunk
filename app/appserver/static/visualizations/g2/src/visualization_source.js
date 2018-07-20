@@ -127,12 +127,6 @@ define([
                 return summary;
             },
 
-            _hackStyle: function() {
-                // Hack the CSS style here
-                // remove the search icon which is always displayed and I dont know why
-                $(".select2-search__field").remove();
-            },
-
             _updateDataPresenting: function(queryResult) {
 
                 const chartScriptName = "g2chart";
@@ -258,9 +252,6 @@ define([
                     $('#' + attr + "attr").on('change', updateChart);
                 });
 
-                let me = this;
-                //me._hackStyle();
-
                 function getFacet(faced, grammarScript) {
                     let facedType = "list";
                     let facedScript = ""
@@ -336,27 +327,6 @@ define([
                     } catch (err) {
                         //console.log(err);
                     }
-                }
-
-                function updateSelect2Order(evt) {
-                    let element = evt.params.data.element;
-                    let $element = $(element);
-                    $element.detach();
-                    $(this).append($element);
-                    $(this).trigger("change");
-                    if (!evt.params.originalEvent) {
-                        return
-                    }
-                    evt.params.originalEvent.stopPropagation();
-                }
-
-                function onSelect(evt) {
-                    console.log("select2 component is selected!");
-                }
-
-                function onClosing(evt) {
-                    console.log("select2 component is closing!");
-                    evt.params.originalEvent.stopPropagation();
                 }
             }
         });

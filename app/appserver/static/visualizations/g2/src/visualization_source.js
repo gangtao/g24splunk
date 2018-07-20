@@ -222,20 +222,12 @@ define([
                     .attr("name", d => d);
 
                 geom_attributes.map(function(attr) {
-                    if ( attr == 'position') {
-                        $('#' + attr + "attr").select2({
-                            data: fields,
-                            multiple: true,
-                            theme: "bootstrap",
-                        });
-                        $('#' + attr + "attr").on("select2:select", updateSelect2Order);
-                    } else {
-
-                        $('#' + attr + "attr").select2({
-                            data: [""].concat(fields),
-                            theme: "bootstrap",
-                        });
-                    }
+                    $('#' + attr + "attr").select2({
+                        data: fields,
+                        multiple: true,
+                        theme: "bootstrap",
+                    });
+                    $('#' + attr + "attr").on("select2:select", updateSelect2Order);
                     $('#' + attr + "attr").on('change', updateChart);
                 });
 

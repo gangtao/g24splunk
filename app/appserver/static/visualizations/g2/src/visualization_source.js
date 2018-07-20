@@ -9,7 +9,8 @@ define([
         // Add required assets to this list
         '@antv/g2',
         'd3',
-        'select2'
+        'selectize',
+        'jquery-ui/ui/widgets/sortable'
     ],
     function(
         $,
@@ -18,7 +19,8 @@ define([
         vizUtils,
         G2,
         d3,
-        select2
+        selectize,
+        sortable
     ) {
 
         // Extend from SplunkVisualizationBase
@@ -148,18 +150,26 @@ define([
                 facetSelectContainer.text("facet");
                 facetSelectContainer.append("br");
                 const facetSelect = facetSelectContainer.append("select")
-                    .classed("select2 input-sm", true)
                     .attr("id", "facetSelect")
-                    .attr("name", "facet");
+                    .attr("name", "facet")
+                    .attr("multiple", "")
+                    .style("width","250px")
+                    .selectAll("option")
+                    .data(fields)
+                    .enter()
+                    .append("option")
+                    .attr("value", function(d){
+                        return d;
+                    })
+                    .text(function(d){
+                        return d;
+                    });
 
-                $('#facetSelect').select2({
-                    data: fields,
-                    theme: "bootstrap",
-                    multiple: true,
-                    maximumSelectionLength: 2
+                
+                $('#facetSelect').selectize({
+                    plugins: ['drag_drop','remove_button']
                 });
                 $('#facetSelect').on('change', updateChart);
-                $('#facetSelect').on("select2:select", updateSelect2Order);
 
                 // initialize geometry selection
                 $("#geomContainer").empty();
@@ -170,14 +180,22 @@ define([
                 geomSelectContainer.text("geometry");
                 geomSelectContainer.append("br");
                 const geomSelect = geomSelectContainer.append("select")
-                    .classed("select2 input-sm", true)
                     .attr("id", "geomSelect")
-                    .attr("name", "geom");
+                    .attr("name", "geom")
+                    .style("width","250px")
+                    .selectAll("option")
+                    .data(geom)
+                    .enter()
+                    .append("option")
+                    .attr("value", function(d){
+                        return d;
+                    })
+                    .text(function(d){
+                        return d;
+                    });
 
-                $('#geomSelect').select2({
-                    data: geom,
-                    theme: "bootstrap"
-                });
+                $('#geomSelect').selectize({});
+                $('#geomSelect').on('change', updateChart);
 
                 // initialize coord selection
                 $("#coordContainer").empty();
@@ -188,14 +206,21 @@ define([
                 coordSelectContainer.text("coord");
                 coordSelectContainer.append("br");
                 const coordSelect = coordSelectContainer.append("select")
-                    .classed("select2 input-sm", true)
                     .attr("id", "coordSelect")
-                    .attr("name", "coord");
+                    .attr("name", "coord")
+                    .style("width","250px")
+                    .selectAll("option")
+                    .data(coord)
+                    .enter()
+                    .append("option")
+                    .attr("value", function(d){
+                        return d;
+                    })
+                    .text(function(d){
+                        return d;
+                    });
 
-                $('#coordSelect').select2({
-                    data: coord,
-                    theme: "bootstrap"
-                });
+                $('#coordSelect').selectize({});
                 $('#coordSelect').on('change', updateChart);
 
                 // initialize geometry attributes selection
@@ -205,32 +230,36 @@ define([
                 attrContainer.text(d => d);
                 attrContainer.append("br");
                 attrContainer.append("select")
-                    .classed("select2 input-sm select2-multiple", true)
                     .attr("id", d => d + "attr")
-                    .attr("name", d => d);
+                    .attr("name", d => d)
+                    .attr("multiple", "")
+                    .style("width","250px")
+                    .selectAll("option")
+                    .data(fields)
+                    .enter()
+                    .append("option")
+                    .attr("value", function(d){
+                        return d;
+                    })
+                    .text(function(d){
+                        return d;
+                    });
 
                 geom_attributes.map(function(attr) {
                     if ( attr == 'position') {
-                        $('#' + attr + "attr").select2({
-                            data: fields,
-                            multiple: true,
-                            theme: "bootstrap",
-                            maximumSelectionLength: 2
+                        $('#' + attr + "attr").selectize({
+                            plugins: ['drag_drop','remove_button']
                         });
-                        $('#' + attr + "attr").on("select2:select", updateSelect2Order);
                     } else {
-                        $('#' + attr + "attr").select2({
-                            data: fields,
-                            multiple: true,
-                            theme: "bootstrap",
-                            maximumSelectionLength: 1
+                        $('#' + attr + "attr").selectize({
+                            plugins: ['drag_drop','remove_button']
                         });
                     }
                     $('#' + attr + "attr").on('change', updateChart);
                 });
 
                 let me = this;
-                me._hackStyle();
+                //me._hackStyle();
 
                 function getFacet(faced, grammarScript) {
                     let facedType = "list";

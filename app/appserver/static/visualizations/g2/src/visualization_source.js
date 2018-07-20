@@ -186,7 +186,6 @@ define([
                     theme: "bootstrap"
                 });
                 $('#geomSelect').on('change', updateChart);
-                $('#geomSelect').on("select2:select", updateSelect2Order);
 
                 // initialize coord selection
                 $("#coordContainer").empty();
@@ -223,12 +222,20 @@ define([
                     .attr("name", d => d);
 
                 geom_attributes.map(function(attr) {
-                    $('#' + attr + "attr").select2({
-                        data: fields,
-                        multiple: true,
-                        theme: "bootstrap",
-                    });
-                    $('#' + attr + "attr").on("select2:select", updateSelect2Order);
+                    if ( attr == 'position') {
+                        $('#' + attr + "attr").select2({
+                            data: fields,
+                            multiple: true,
+                            theme: "bootstrap",
+                        });
+                        $('#' + attr + "attr").on("select2:select", updateSelect2Order);
+                    } else {
+
+                        $('#' + attr + "attr").select2({
+                            data: [""].concat(fields),
+                            theme: "bootstrap",
+                        });
+                    }
                     $('#' + attr + "attr").on('change', updateChart);
                 });
 
@@ -319,7 +326,10 @@ define([
                     $element.detach();
                     $(this).append($element);
                     $(this).trigger("change");
-                    evt.stopPropagation();
+                    if (!evt.params.originalEvent) {
+                        return
+                    }
+                    evt.params.originalEvent.stopPropagation();
                 }
             }
         });

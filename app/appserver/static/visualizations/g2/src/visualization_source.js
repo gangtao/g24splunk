@@ -9,7 +9,7 @@ define([
         // Add required assets to this list
         '@antv/g2',
         'd3',
-        'Select2'
+        'select2'
     ],
     function(
         $,
@@ -133,6 +133,7 @@ define([
             },
 
             _updateDataPresenting: function(queryResult) {
+
                 const chartScriptName = "g2chart";
                 const geom = ["", "point", "path", "line", "area", "interval", "intervalStack", "polygon", "edge", "schema", "heatmap"];
                 const coord = ["", "rect", "polar", "theta", "helix"];
@@ -185,6 +186,7 @@ define([
                     theme: "bootstrap"
                 });
                 $('#geomSelect').on('change', updateChart);
+                $('#geomSelect').on("select2:select", updateSelect2Order);
 
                 // initialize coord selection
                 $("#coordContainer").empty();
@@ -317,6 +319,7 @@ define([
                     $element.detach();
                     $(this).append($element);
                     $(this).trigger("change");
+                    evt.stopPropagation();
                 }
             }
         });

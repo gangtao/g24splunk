@@ -143,8 +143,6 @@ define([
                 // initialize facet selection
                 $("#facetContainer").empty();
                 const facetSelectContainer = d3.select("#facetContainer")
-                    .append("ul")
-                    .append("li")
                     .append("label");
 
                 facetSelectContainer.text("facet");
@@ -167,8 +165,6 @@ define([
                 $("#geomContainer").empty();
                 const geomSelectContainer = d3.select("#geomContainer")
                     .classed("container", true)
-                    .append("ul")
-                    .append("li")
                     .append("label");
 
                 geomSelectContainer.text("geometry");
@@ -182,15 +178,11 @@ define([
                     data: geom,
                     theme: "bootstrap"
                 });
-                $('#geomSelect').on('change', updateChart);
-                $('#geomSelect').on('select2:select', onSelect);
 
                 // initialize coord selection
                 $("#coordContainer").empty();
                 const coordSelectContainer = d3.select("#coordContainer")
                     .classed("container", true)
-                    .append("ul")
-                    .append("li")
                     .append("label");
 
                 coordSelectContainer.text("coord");
@@ -208,8 +200,8 @@ define([
 
                 // initialize geometry attributes selection
                 $("#geomAttrContainer").empty();
-                const attrContainer = d3.select("#geomAttrContainer").classed("container", true).append("ul").selectAll("li").data(geom_attributes)
-                    .enter().append("li").append("label");
+                const attrContainer = d3.select("#geomAttrContainer").classed("container", true).selectAll("div").data(geom_attributes)
+                    .enter().append("div").append("label");
                 attrContainer.text(d => d);
                 attrContainer.append("br");
                 attrContainer.append("select")
@@ -331,6 +323,11 @@ define([
 
                 function onSelect(evt) {
                     console.log("select2 component is selected!");
+                }
+
+                function onClosing(evt) {
+                    console.log("select2 component is closing!");
+                    evt.params.originalEvent.stopPropagation();
                 }
             }
         });

@@ -127,9 +127,8 @@ define([
 
             _hackStyle: function() {
                 // Hack the CSS style here
-                // hide the search icon which is always displayed and I dont know why
-                d3.selectAll(".select2-search__field")
-                    .style("display","none");
+                // remove the search icon which is always displayed and I dont know why
+                $(".select2-search__field").remove();
             },
 
             _updateDataPresenting: function(queryResult) {
@@ -151,7 +150,6 @@ define([
                 facetSelectContainer.text("facet");
                 facetSelectContainer.append("br");
                 const facetSelect = facetSelectContainer.append("select")
-                    .style("width", "200px")
                     .classed("select2 input-sm", true)
                     .attr("id", "facetSelect")
                     .attr("name", "facet");
@@ -176,7 +174,6 @@ define([
                 geomSelectContainer.text("geometry");
                 geomSelectContainer.append("br");
                 const geomSelect = geomSelectContainer.append("select")
-                    .style("width", "200px")
                     .classed("select2 input-sm", true)
                     .attr("id", "geomSelect")
                     .attr("name", "geom");
@@ -186,6 +183,7 @@ define([
                     theme: "bootstrap"
                 });
                 $('#geomSelect').on('change', updateChart);
+                $('#geomSelect').on('select2:select', onSelect);
 
                 // initialize coord selection
                 $("#coordContainer").empty();
@@ -198,7 +196,6 @@ define([
                 coordSelectContainer.text("coord");
                 coordSelectContainer.append("br");
                 const coordSelect = coordSelectContainer.append("select")
-                    .style("width", "200px")
                     .classed("select2 input-sm", true)
                     .attr("id", "coordSelect")
                     .attr("name", "coord");
@@ -216,7 +213,6 @@ define([
                 attrContainer.text(d => d);
                 attrContainer.append("br");
                 attrContainer.append("select")
-                    .style("width", "200px")
                     .classed("select2 input-sm select2-multiple", true)
                     .attr("id", d => d + "attr")
                     .attr("name", d => d);
@@ -232,7 +228,7 @@ define([
                         $('#' + attr + "attr").on("select2:select", updateSelect2Order);
                     } else {
                         $('#' + attr + "attr").select2({
-                            data: [""].concat(fields),
+                            data: fields,
                             multiple: true,
                             theme: "bootstrap",
                             maximumSelectionLength: 1
@@ -316,7 +312,6 @@ define([
                         g2chart.source(queryResult);
                         eval(grammer);
                         g2chart.render();
-                        me._hackStyle();
                     } catch (err) {
                         //console.log(err);
                     }
@@ -332,6 +327,10 @@ define([
                         return
                     }
                     evt.params.originalEvent.stopPropagation();
+                }
+
+                function onSelect(evt) {
+                    console.log("select2 component is selected!");
                 }
             }
         });

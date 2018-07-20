@@ -267,12 +267,22 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	                    .attr("name", d => d);
 
 	                geom_attributes.map(function(attr) {
-	                    $('#' + attr + "attr").select2({
-	                        data: fields,
-	                        multiple: true,
-	                        theme: "bootstrap",
-	                    });
-	                    $('#' + attr + "attr").on("select2:select", updateSelect2Order);
+	                    if ( attr == 'position') {
+	                        $('#' + attr + "attr").select2({
+	                            data: fields,
+	                            multiple: true,
+	                            theme: "bootstrap",
+	                            maximumSelectionLength: 2
+	                        });
+	                        $('#' + attr + "attr").on("select2:select", updateSelect2Order);
+	                    } else {
+	                        $('#' + attr + "attr").select2({
+	                            data: [""].concat(fields),
+	                            multiple: true,
+	                            theme: "bootstrap",
+	                            maximumSelectionLength: 1
+	                        });
+	                    }
 	                    $('#' + attr + "attr").on('change', updateChart);
 	                });
 
